@@ -21,7 +21,7 @@ namespace CrazyUniverse.Core
             }
 
             UseBattery(10);
-            return Name + " is cleaning the planet with a toothbrush";
+            return Name + " cleaned the whole city with a tiny toothbrush";
         }
     }
 }
