@@ -68,8 +68,8 @@ Ma kasutasin ChatGPT koodi koostamisel ja vigade parandamisel (mittetöötava la
 
 ## GitHub koostöö
 
-Kaasüliõpilane: hiljem
+Kaasüliõpilane: Max Valja
 
-Issue: hiljem
+Issue: Change CleanerBot action
 
-Pull Request: hiljem
+Pull Request: https://github.com/tutposhka/CrazyUniverse/pull/2
