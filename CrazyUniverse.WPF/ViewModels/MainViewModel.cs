@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using CrazyUniverse.Core;
@@ -11,6 +11,9 @@ namespace CrazyUniverse.WPF.ViewModels
         private Repository<ExplorerBot> explorers = new Repository<ExplorerBot>();
         private Repository<RepairBot> repairers = new Repository<RepairBot>();
         private Repository<GuardBot> guards = new Repository<GuardBot>();
+        private Repository<MedicBot> medics = new Repository<MedicBot>();
+        private Repository<ChefBot> chefs = new Repository<ChefBot>();
+        private Repository<DeliveryBot> deliveries = new Repository<DeliveryBot>();
 
         private int selectedType;
         private int sortIndex;
@@ -23,7 +26,10 @@ namespace CrazyUniverse.WPF.ViewModels
             "CleanerBot",
             "ExplorerBot",
             "RepairBot",
-            "GuardBot"
+            "GuardBot",
+            "MedicBot",
+            "ChefBot",
+            "DeliveryBot"
         };
 
         public string[] SortOptions { get; } =
@@ -82,6 +88,9 @@ namespace CrazyUniverse.WPF.ViewModels
             explorers.Log += text => Log.Add("[Explorer] " + text);
             repairers.Log += text => Log.Add("[Repair] " + text);
             guards.Log += text => Log.Add("[Guard] " + text);
+            medics.Log += text => Log.Add("[Medic] " + text);
+            chefs.Log += text => Log.Add("[Chef] " + text);
+            deliveries.Log += text => Log.Add("[Delivery] " + text);
 
             cleaners.Add(new CleanerBot("Ash", 100));
             explorers.Add(new ExplorerBot("Pathfinder", 80));
@@ -184,6 +193,21 @@ namespace CrazyUniverse.WPF.ViewModels
                 return guards.GetAll();
             }
 
+            if (SelectedType == 4)
+            {
+                return medics.GetAll();
+            }
+
+            if (SelectedType == 5)
+            {
+                return chefs.GetAll();
+            }
+
+            if (SelectedType == 6)
+            {
+                return deliveries.GetAll();
+            }
+
             return new List<Robot>();
         }
 
@@ -195,6 +219,9 @@ namespace CrazyUniverse.WPF.ViewModels
             all.AddRange(explorers.GetAll());
             all.AddRange(repairers.GetAll());
             all.AddRange(guards.GetAll());
+            all.AddRange(medics.GetAll());
+            all.AddRange(chefs.GetAll());
+            all.AddRange(deliveries.GetAll());
 
             return all;
         }
@@ -274,6 +301,18 @@ namespace CrazyUniverse.WPF.ViewModels
             {
                 guards.Add(new GuardBot(name, 100));
             }
+            else if (SelectedType == 4)
+            {
+                medics.Add(new MedicBot(name, 100));
+            }
+            else if (SelectedType == 5)
+            {
+                chefs.Add(new ChefBot(name, 100));
+            }
+            else if (SelectedType == 6)
+            {
+                deliveries.Add(new DeliveryBot(name, 100));
+            }
 
             RobotName = "";
             UpdateList();
@@ -296,6 +335,18 @@ namespace CrazyUniverse.WPF.ViewModels
             else if (SelectedRobot is GuardBot guard)
             {
                 guards.Remove(guard);
+            }
+            else if (SelectedRobot is MedicBot medic)
+            {
+                medics.Remove(medic);
+            }
+            else if (SelectedRobot is ChefBot chef)
+            {
+                chefs.Remove(chef);
+            }
+            else if (SelectedRobot is DeliveryBot delivery)
+            {
+                deliveries.Remove(delivery);
             }
 
             SelectedRobot = null;
