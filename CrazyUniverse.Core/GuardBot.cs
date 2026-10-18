@@ -1,5 +1,4 @@
-﻿
-namespace CrazyUniverse.Core
+﻿namespace CrazyUniverse.Core
 {
     public class GuardBot : Robot, IScan
     {
@@ -29,10 +28,16 @@ namespace CrazyUniverse.Core
 
             if (Battery < 20)
             {
-                return Name + " is scared and runs away";
+                return FinishAction(Name + " is scared and runs away");
             }
 
-            return Name + " is fighting an invisible enemy";
+            return FinishAction(
+                Name + " is fighting an invisible enemy");
+        }
+
+        protected override string ReactToAction(Robot other)
+        {
+            return Name + " sounds an alarm because of " + other.Name;
         }
     }
 }
