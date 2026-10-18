@@ -1,72 +1,137 @@
 ﻿<Window x:Class="CrazyUniverse.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Robot Planet" Height="530" Width="750">
+        Title="Crazy Universe"
+        Height="600"
+        Width="900">
 
-    <Grid Margin="15">
+    <Grid Margin="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0">
-            <TextBlock Text="Robot Planet"
-                       FontSize="23" Margin="0,0,0,15"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <TextBlock Text="Robot name:"/>
-            <TextBox x:Name="NameBox" Margin="0,5,10,10"/>
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Robot name"/>
 
-            <TextBlock Text="Robot type:"/>
-            <ComboBox x:Name="TypeBox" Margin="0,5,10,10"
-                      SelectedIndex="0">
-                <ComboBoxItem Content="CleanerBot"/>
-                <ComboBoxItem Content="ExplorerBot"/>
-                <ComboBoxItem Content="RepairBot"/>
-                <ComboBoxItem Content="GuardBot"/>
-            </ComboBox>
+                <TextBox x:Name="NameBox"
+                         Text="{Binding RobotName, UpdateSourceTrigger=PropertyChanged}"
+                         Height="25"
+                         Margin="0,5,10,10"/>
 
-            <Button Content="Add robot" Height="30"
-                    Margin="0,5,10,5" Click="Add_Click"/>
+                <TextBlock Text="Robot type"/>
 
-            <Button Content="Delete robot" Height="30"
-                    Margin="0,0,10,10" Click="Delete_Click"/>
+                <ComboBox x:Name="TypeBox"
+                          ItemsSource="{Binding Types}"
+                          SelectedIndex="{Binding SelectedType, Mode=TwoWay}"
+                          Height="25"
+                          Margin="0,5,10,10"/>
 
-            <TextBlock Text="Robots:" FontSize="16"/>
-            <ListBox x:Name="RobotList" Height="200"
-                     Margin="0,5,10,0"
-                     SelectionChanged="RobotList_SelectionChanged"/>
-        </StackPanel>
+                <Button Content="Add robot"
+                        Command="{Binding AddCommand}"
+                        Height="30"
+                        Margin="0,0,10,10"/>
 
-        <StackPanel Grid.Column="1" Margin="15,0,0,0">
-            <TextBlock Text="Robot information"
-                       FontSize="20" Margin="0,0,0,10"/>
+                <Button Content="Delete robot"
+                        Command="{Binding RemoveCommand}"
+                        Height="30"
+                        Margin="0,0,10,10"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Search by name"/>
+
+                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         Height="25"
+                         Margin="0,5,10,10"/>
+
+                <TextBlock Text="Sort"/>
+
+                <ComboBox ItemsSource="{Binding SortOptions}"
+                          SelectedIndex="{Binding SortIndex, Mode=TwoWay}"
+                          Height="25"
+                          Margin="0,5,10,10"/>
+            </StackPanel>
+
+            <TextBlock Grid.Row="2"
+                       Text="Robots:"
+                       FontSize="16"/>
+
+            <ListBox x:Name="RobotList"
+                     Grid.Row="3"
+                     ItemsSource="{Binding Robots}"
+                     SelectedItem="{Binding SelectedRobot, Mode=TwoWay}"
+                     DisplayMemberPath="Name"
+                     Margin="0,5,10,0"/>
+        </Grid>
+
+        <Grid Grid.Column="1" Margin="15,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="Robot information"
+                       FontSize="20"
+                       Margin="0,0,0,10"/>
 
             <TextBlock x:Name="InfoText"
-                       Text="Select a robot"
-                       FontSize="14" Margin="0,0,0,15"/>
+                       Grid.Row="1"
+                       Text="{Binding SelectedRobot.Info, TargetNullValue=Select a robot, FallbackValue=Select a robot}"
+                       FontSize="14"
+                       Margin="0,0,0,15"/>
 
-            <WrapPanel>
+            <WrapPanel Grid.Row="2">
                 <Button Content="Crazy Action"
-                        Width="110" Height="35"
-                        Margin="0,0,5,5" Click="Crazy_Click"/>
+                        Command="{Binding CrazyCommand}"
+                        Width="110"
+                        Height="35"
+                        Margin="0,0,5,5"/>
 
                 <Button Content="Charge"
-                        Width="80" Height="35"
-                        Margin="0,0,5,5" Click="Charge_Click"/>
+                        Command="{Binding ChargeCommand}"
+                        Width="80"
+                        Height="35"
+                        Margin="0,0,5,5"/>
 
                 <Button Content="Scan"
-                        Width="70" Height="35"
-                        Margin="0,0,5,5" Click="Scan_Click"/>
+                        Command="{Binding ScanCommand}"
+                        Width="70"
+                        Height="35"
+                        Margin="0,0,5,5"/>
 
                 <Button Content="Repair"
-                        Width="75" Height="35"
-                        Margin="0,0,5,5" Click="Repair_Click"/>
+                        Command="{Binding RepairCommand}"
+                        Width="75"
+                        Height="35"
+                        Margin="0,0,5,5"/>
             </WrapPanel>
 
-            <TextBlock Text="Activity log" FontSize="16"
+            <TextBlock Grid.Row="3"
+                       Text="{Binding Stats}"
+                       Margin="0,10,0,0"/>
+
+            <TextBlock Grid.Row="4"
+                       Text="Activity log"
+                       FontSize="16"
                        Margin="0,15,0,5"/>
 
-            <ListBox x:Name="LogList" Height="280"/>
-        </StackPanel>
+            <ListBox x:Name="LogList"
+                     Grid.Row="5"
+                     ItemsSource="{Binding Log}"/>
+        </Grid>
     </Grid>
 </Window>

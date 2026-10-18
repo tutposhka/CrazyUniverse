@@ -1,5 +1,4 @@
-﻿
-namespace CrazyUniverse.Core
+﻿namespace CrazyUniverse.Core
 {
     public class RepairBot : Robot, IRepair
     {
@@ -22,7 +21,7 @@ namespace CrazyUniverse.Core
             UseBattery(10);
             robot.AddBattery(30);
 
-            return Name + " repaired " + robot.Name + ".";
+            return Name + " repaired " + robot.Name;
         }
 
         public override string CrazyAction()
@@ -33,7 +32,14 @@ namespace CrazyUniverse.Core
             }
 
             UseBattery(20);
-            return Name + " tried to repair itself with a spoon";
+
+            return FinishAction(
+                Name + " tried to repair itself with a spoon");
+        }
+
+        protected override string ReactToAction(Robot other)
+        {
+            return Name + " prepares spare parts for " + other.Name;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace CrazyUniverse.Core
+﻿namespace CrazyUniverse.Core
 {
     public class CleanerBot : Robot, IChargeable
     {
@@ -21,7 +20,14 @@ namespace CrazyUniverse.Core
             }
 
             UseBattery(10);
-            return Name + " is cleaning the planet with a toothbrush";
+
+            return FinishAction(
+                Name + " cleaned the whole city with a tiny toothbrush");
+        }
+
+        protected override string ReactToAction(Robot other)
+        {
+            return Name + " cleans the mess after " + other.Name;
         }
     }
 }

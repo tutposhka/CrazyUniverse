@@ -1,5 +1,4 @@
-﻿
-namespace CrazyUniverse.Core
+﻿namespace CrazyUniverse.Core
 {
     public class ExplorerBot : Robot, IScan, IChargeable
     {
@@ -32,7 +31,14 @@ namespace CrazyUniverse.Core
             }
 
             UseBattery(15);
-            return Name + " discovered a new planet made of cheese";
+
+            return FinishAction(
+                Name + " discovered a new planet made of cheese");
+        }
+
+        protected override string ReactToAction(Robot other)
+        {
+            return Name + " checks the discovery of " + other.Name;
         }
     }
 }
