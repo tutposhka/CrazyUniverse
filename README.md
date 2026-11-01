@@ -1,75 +1,33 @@
-# CrazyUniverse
+# CrazyUniverse Vol.3
 
-WPF rakendus erinevate robotite juhtimiseks
-
-## Projekti struktuur
-
-- CrazyUniverse.Core robotite klassid ja loogika
-- CrazyUniverse.WPF kasutajaliides
-
-## Klassid
-
-- Robot abstraktne baasklass
-- CleanerBot koristab
-- ExplorerBot uurib
-- RepairBot parandab
-- GuardBot valvab
-
-## Liidesed
-
-- IChargeable aku laadimine
-- IRepair robotite parandamine
-- IScan skannimine
-
-ExplorerBot kasutab kahte liidest: IChargeable ja IScan
+WPF rakendus robotite CPU-simulatsioonide käivitamiseks ja võrdlemiseks.
 
 ## Funktsioonid
 
-- Robotite lisamine ja kustutamine
-- Roboti valimine ja info kuvamine
-- CrazyAction igal robotil erinev tegevus
-- Aku laadimine ja parandamine
-- Tegevuste logi
-
-## Aku ja CrazyAction
-
-Igal robotil on aku vahemikus 0-100%
-
-CrazyAction kasutab akut ja tagastab erineva sõnumi sõltuvalt robotist
-
-Kui akut pole piisavalt, tegevust ei tehta
-
-Charge lisab kuni 20% akut. Repair lisab teisele robotile kuni 30% akut
-
-## Kasutajaliides
-
-Robotite hoidmiseks kasutatakse ObservableCollection kollektsiooni
-
-WPF-is on kasutatud WrapPanel elementi, et tegevuste nupud oleksid ühes reas
+- Vähemalt kolme roboti valimine
+- Kolm koormuse taset: Small, Medium, Large
+- Sequential - järjestikune arvutamine
+- Parallel - paralleelne arvutamine
+- Task.Run ja Task.WhenAll kasutamine
+- Stopwatch abil tööaja mõõtmine
+- CancellationToken abil arvutuste tühistamine
+- Iga roboti tulemuse, vea või tühistamise kuvamine
+- Kogu tööaja võrdlemine
 
 ## Käivitamine
 
 1. Ava Solution2.slnx Visual Studios
 2. Vali CrazyUniverse.WPF käivitusprojektiks
 3. Käivita F5 abil
+4. Vajuta Vol.3 nuppu
+5. Vali vähemalt kolm robotit ja koormuse tase
+6. Käivita Sequential või Parallel
 
 ## Testimine
 
-1. Roboti lisamine - robot ilmub nimekirja
-2. Roboti kustutamine - robot eemaldatakse
-3. CrazyAction - aku väheneb
-4. Charge - aku suureneb
-5. Repair - valitud roboti aku suureneb
-6. Tühi nimi - kuvatakse veateade
-
-## AI kasutamine
-
-Ma kasutasin ChatGPT koodi koostamisel ja vigade parandamisel (mittetöötava laadimise ja parandamise loogika). Testisin rakendust Visual Studios ning muutsin kasutajaliidest ja robotite loogikat
-
-## GitHub koostöö
-
-Kaasüliõpilane: Max Valja
-
-Issue: Change CleanerBot action
-
-Pull Request: https://github.com/tutposhka/CrazyUniverse/pull/2
+1. Sequential - robotite arvutused töötavad järjest
+2. Parallel - arvutused töötavad paralleelselt
+3. Cancel - arvutused tühistatakse
+4. Vähem kui kolm robotit - arvutust ei alustata
+5. Tulemused - kuvatakse robotite tulemused ja tööajad
+6. Võrdlus - paralleelne täitmine on testimisel kiirem
