@@ -1,0 +1,47 @@
+<Window x:Class="CrazyUniverse.WPF.SimulationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Robot simulations" Height="530" Width="750">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="130"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Select at least 3 robots"
+                   FontSize="17" Margin="0,0,0,10"/>
+
+        <ListBox x:Name="RobotsList" Grid.Row="1"
+                 DisplayMemberPath="Name" SelectionMode="Multiple"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,10">
+            <TextBlock Text="Workload:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox x:Name="WorkBox" Width="160" SelectedIndex="1">
+                <ComboBoxItem Content="Small"/>
+                <ComboBoxItem Content="Medium"/>
+                <ComboBoxItem Content="Large"/>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button x:Name="SequentialButton" Content="Sequential" Width="110"
+                    Height="30" Margin="0,0,7,0" Click="Sequential_Click"/>
+            <Button x:Name="ParallelButton" Content="Parallel" Width="110"
+                    Height="30" Margin="0,0,7,0" Click="Parallel_Click"/>
+            <Button x:Name="CancelButton" Content="Cancel" Width="90"
+                    Height="30" IsEnabled="False" Click="Cancel_Click"/>
+        </StackPanel>
+
+        <Grid Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="StatusText" Text="Ready" Margin="0,0,0,7"/>
+            <ListBox x:Name="ResultsList" Grid.Row="1"/>
+        </Grid>
+    </Grid>
+</Window>

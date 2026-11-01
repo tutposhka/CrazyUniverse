@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using CrazyUniverse.WPF.ViewModels;
 
 namespace CrazyUniverse.WPF
@@ -9,6 +9,16 @@ namespace CrazyUniverse.WPF
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+        }
+
+        private void Simulations_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainViewModel vm)
+            {
+                SimulationWindow window = new SimulationWindow(vm.GetAllRobots());
+                window.Owner = this;
+                window.ShowDialog();
+            }
         }
     }
 }

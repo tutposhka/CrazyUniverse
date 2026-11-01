@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using CrazyUniverse.Core;
-
 namespace CrazyUniverse.WPF.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
@@ -14,7 +13,6 @@ namespace CrazyUniverse.WPF.ViewModels
         private Repository<MedicBot> medics = new Repository<MedicBot>();
         private Repository<ChefBot> chefs = new Repository<ChefBot>();
         private Repository<DeliveryBot> deliveries = new Repository<DeliveryBot>();
-
         private int selectedType;
         private int sortIndex;
         private Robot? selectedRobot;
@@ -31,7 +29,6 @@ namespace CrazyUniverse.WPF.ViewModels
             "ChefBot",
             "DeliveryBot"
         };
-
         public string[] SortOptions { get; } =
         {
             "Name A-Z",
@@ -45,7 +42,6 @@ namespace CrazyUniverse.WPF.ViewModels
             new ObservableCollection<string>();
 
         public string Stats { get; private set; } = "";
-
         public RelayCommand AddCommand { get; }
         public RelayCommand RemoveCommand { get; }
         public RelayCommand CrazyCommand { get; }
@@ -54,7 +50,6 @@ namespace CrazyUniverse.WPF.ViewModels
         public RelayCommand RepairCommand { get; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
         public MainViewModel()
         {
             AddCommand = new RelayCommand(
@@ -67,7 +62,6 @@ namespace CrazyUniverse.WPF.ViewModels
             RemoveCommand = new RelayCommand(
                 RemoveRobot,
                 () => SelectedRobot != null);
-
             CrazyCommand = new RelayCommand(
                 CrazyAction,
                 () => SelectedRobot != null);
@@ -83,7 +77,6 @@ namespace CrazyUniverse.WPF.ViewModels
             RepairCommand = new RelayCommand(
                 Repair,
                 () => SelectedRobot != null && FindRepairBot() != null);
-
             cleaners.Log += text => Log.Add("[Cleaner] " + text);
             explorers.Log += text => Log.Add("[Explorer] " + text);
             repairers.Log += text => Log.Add("[Repair] " + text);
@@ -91,7 +84,6 @@ namespace CrazyUniverse.WPF.ViewModels
             medics.Log += text => Log.Add("[Medic] " + text);
             chefs.Log += text => Log.Add("[Chef] " + text);
             deliveries.Log += text => Log.Add("[Delivery] " + text);
-
             cleaners.Add(new CleanerBot("Ash", 100));
             explorers.Add(new ExplorerBot("Pathfinder", 80));
             repairers.Add(new RepairBot("Marvin", 90));
@@ -109,7 +101,6 @@ namespace CrazyUniverse.WPF.ViewModels
                 {
                     return;
                 }
-
                 selectedType = value;
                 SelectedRobot = null;
 
@@ -129,7 +120,6 @@ namespace CrazyUniverse.WPF.ViewModels
                 }
 
                 selectedRobot = value;
-
                 Notify(nameof(SelectedRobot));
                 UpdateCommands();
             }
@@ -146,7 +136,6 @@ namespace CrazyUniverse.WPF.ViewModels
                 AddCommand.RaiseCanExecuteChanged();
             }
         }
-
         public string SearchText
         {
             get { return searchText; }
@@ -170,7 +159,6 @@ namespace CrazyUniverse.WPF.ViewModels
                 UpdateList();
             }
         }
-
         private IEnumerable<Robot> GetCurrentRobots()
         {
             if (SelectedType == 0)
@@ -192,7 +180,6 @@ namespace CrazyUniverse.WPF.ViewModels
             {
                 return guards.GetAll();
             }
-
             if (SelectedType == 4)
             {
                 return medics.GetAll();
@@ -211,10 +198,9 @@ namespace CrazyUniverse.WPF.ViewModels
             return new List<Robot>();
         }
 
-        private List<Robot> GetAllRobots()
+        public List<Robot> GetAllRobots()
         {
             List<Robot> all = new List<Robot>();
-
             all.AddRange(cleaners.GetAll());
             all.AddRange(explorers.GetAll());
             all.AddRange(repairers.GetAll());
@@ -230,7 +216,6 @@ namespace CrazyUniverse.WPF.ViewModels
         {
             Robot? oldSelection = SelectedRobot;
             string search = SearchText.Trim().ToLower();
-
             var result = GetCurrentRobots()
                 .Where(r => r.Name.ToLower().Contains(search));
 
@@ -246,7 +231,6 @@ namespace CrazyUniverse.WPF.ViewModels
             List<Robot> found = result.ToList();
 
             Robots.Clear();
-
             foreach (Robot robot in found)
             {
                 Robots.Add(robot);
@@ -265,7 +249,6 @@ namespace CrazyUniverse.WPF.ViewModels
                 .GroupBy(r => r.GetType().Name);
 
             Stats = "";
-
             foreach (var group in groups)
             {
                 Stats += group.Key + ": " + group.Count()
@@ -284,7 +267,6 @@ namespace CrazyUniverse.WPF.ViewModels
         private void AddRobot()
         {
             string name = RobotName.Trim();
-
             if (SelectedType == 0)
             {
                 cleaners.Add(new CleanerBot(name, 100));
@@ -313,11 +295,9 @@ namespace CrazyUniverse.WPF.ViewModels
             {
                 deliveries.Add(new DeliveryBot(name, 100));
             }
-
             RobotName = "";
             UpdateList();
         }
-
         private void RemoveRobot()
         {
             if (SelectedRobot is CleanerBot cleaner)
@@ -348,7 +328,6 @@ namespace CrazyUniverse.WPF.ViewModels
             {
                 deliveries.Remove(delivery);
             }
-
             SelectedRobot = null;
             UpdateList();
         }
@@ -363,12 +342,10 @@ namespace CrazyUniverse.WPF.ViewModels
             int oldLogCount = Log.Count;
             string message = SelectedRobot.CrazyAction();
 
-            // Successful action is already logged by Repository.
             if (Log.Count == oldLogCount)
             {
                 Log.Add(message);
             }
-
             UpdateList();
         }
 
@@ -391,7 +368,6 @@ namespace CrazyUniverse.WPF.ViewModels
 
             UpdateList();
         }
-
         private RepairBot? FindRepairBot()
         {
             return repairers.GetAll()
@@ -409,7 +385,6 @@ namespace CrazyUniverse.WPF.ViewModels
 
             UpdateList();
         }
-
         private void UpdateCommands()
         {
             AddCommand.RaiseCanExecuteChanged();
@@ -419,7 +394,6 @@ namespace CrazyUniverse.WPF.ViewModels
             ScanCommand.RaiseCanExecuteChanged();
             RepairCommand.RaiseCanExecuteChanged();
         }
-
         private void Notify(string property)
         {
             PropertyChanged?.Invoke(
